@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'mresalat_test',
         'USER': 'postgres',
-        'PASSWORD': '123456789',
+        'PASSWORD': 'Ictdb19',
         'HOST': '172.16.11.19',
         'PORT': '5432',
     }
