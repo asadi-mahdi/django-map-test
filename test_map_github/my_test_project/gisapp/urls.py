@@ -9,4 +9,6 @@ urlpatterns = [
     path('/cities', views.cities),
     path('/about', views.example_view),
     path('/api-token-auth', auth_views.obtain_auth_token),
+    path('/area', views.create_area),
+    path('/area/<int:id>', views.find_area),
 ]

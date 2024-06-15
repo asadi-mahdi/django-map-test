@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import GEOSGeometry
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
 from rest_framework.authentication import TokenAuthentication
@@ -62,3 +63,24 @@ def example_view(request, format=None):
         'auth': str(request.auth),  # None
     }
     return Response(content)
+
+
+@api_view(["POST"])
+def create_area(request):
+    try:
+        name = request.data.get("name")
+        geometry = GEOSGeometry(str(request.data.get("geometry")))
+        area = models.Area(name=name, geometry=geometry)
+        area.save()
+        return Response(area.id)
+    except Exception as e:
+        raise ParseError(detail=e)
+
+
+@api_view(["GET"])
+def find_area(request, id):
+    try:
+        area = models.Area.objects.filter(id=id)
+        return Response(serialize('geojson', area))
+    except Exception as e:
+        raise ParseError(detail=e)

@@ -35,18 +35,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'members',
     'gisapp',
     'django.contrib.gis'
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ]
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,9 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/gisapp/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
-GDAL_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\django-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
-GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\django-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
+GDAL_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
+GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
 
 import os
 
-os.environ['PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\django-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
+os.environ['PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
