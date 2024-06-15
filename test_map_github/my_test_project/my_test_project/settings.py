@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'my_test_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'django_test',
+        'NAME': 'mresalat_test',
         'USER': 'postgres',
         'PASSWORD': '123456789',
-        'HOST': 'localhost',
+        'HOST': '172.16.11.19',
         'PORT': '5432',
     }
 }
