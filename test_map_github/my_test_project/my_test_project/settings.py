@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'test_map_github.my_test_project.my_test_project.middleware.SimpleMiddleware',
 ]
 
 ROOT_URLCONF = 'my_test_project.urls'

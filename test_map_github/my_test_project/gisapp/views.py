@@ -80,6 +80,7 @@ def create_area(request):
 @api_view(["GET"])
 def find_area(request, id):
     try:
+        a = request.META['sso']
         area = models.Area.objects.filter(id=id)
         return Response(serialize('geojson', area))
     except Exception as e:
