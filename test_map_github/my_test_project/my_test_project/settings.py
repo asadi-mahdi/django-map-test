@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     'members',
     'gisapp',
-    'django.contrib.gis'
+    'django.contrib.gis',
 ]
 
 # REST_FRAMEWORK = {
@@ -90,6 +90,7 @@ DATABASES = {
         'PASSWORD': 'Ictdb19',
         'HOST': '172.16.11.19',
         'PORT': '5432',
+        'TIME_ZONE': 'Asia/Tehran'
     }
 }
 
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -143,4 +144,5 @@ GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-ma
 
 import os
 
-os.environ['PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
+os.environ[
+    'PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"

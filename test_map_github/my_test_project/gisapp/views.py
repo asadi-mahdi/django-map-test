@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import GEOSGeometry
@@ -8,6 +10,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.exceptions import ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from jdatetime import datetime as jalali_date_time
 
 from . import models
 from .forms import NewUserForm
@@ -82,6 +85,11 @@ def find_area(request, id):
     try:
         a = request.META['sso']
         area = models.Area.objects.filter(id=id)
+        aa = area.values("updated_at")[0].get("updated_at")
+        result = {
+
+            "update time": jalali_date_time.fromgregorian(datetime=area.values("updated_at")[0].get("updated_at")).strftime("%Y/%m/%d, %H:%M")
+        }
         return Response(serialize('geojson', area))
     except Exception as e:
         raise ParseError(detail=e)
