@@ -1,4 +1,6 @@
 from django.contrib.gis.db import models
+from rest_framework import serializers
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
 class Cities(models.Model):
@@ -21,3 +23,10 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class AreaSerializer(GeoFeatureModelSerializer):
+    class Meta:
+        model = Area
+        geo_field = "geometry"
+        fields = ["id", "name", "created_at"]

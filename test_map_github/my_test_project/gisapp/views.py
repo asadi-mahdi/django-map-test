@@ -14,6 +14,7 @@ from jdatetime import datetime as jalali_date_time
 
 from . import models
 from .forms import NewUserForm
+from .models import AreaSerializer
 
 
 @login_required(login_url='/accounts/login/')
@@ -85,11 +86,9 @@ def find_area(request, id):
     try:
         a = request.META['sso']
         area = models.Area.objects.filter(id=id)
-        aa = area.values("updated_at")[0].get("updated_at")
-        result = {
-
-            "update time": jalali_date_time.fromgregorian(datetime=area.values("updated_at")[0].get("updated_at")).strftime("%Y/%m/%d, %H:%M")
-        }
-        return Response(serialize('geojson', area))
+        created_at_jalali = jalali_date_time.fromgregorian(datetime=area.values()[0].get("created_at")).strftime("%Y/%m/%d, %H:%M")
+        result = AreaSerializer(area.values()[0]).data
+        result["properties"]["created_at"] = created_at_jalali
+        return Response(result)
     except Exception as e:
         raise ParseError(detail=e)
