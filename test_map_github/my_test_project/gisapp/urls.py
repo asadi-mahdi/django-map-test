@@ -11,4 +11,6 @@ urlpatterns = [
     path('/api-token-auth', auth_views.obtain_auth_token),
     path('/area', views.create_area),
     path('/area/<int:id>', views.find_area),
+    path('/area/find-all', views.find_all_areas),
+    path('/area/<int:id>', views.update_area),
 ]

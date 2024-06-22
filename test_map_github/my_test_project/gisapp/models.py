@@ -16,13 +16,20 @@ class Cities(models.Model):
 
 class Area(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    geometry = models.PolygonField(srid=4326)
+    name = models.CharField(max_length=100, blank=False, null=False, unique=True)
+    geometry = models.PolygonField(srid=4326, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+
+class AreaGeneralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Area
+        fields = '__all__'
+        extra_kwargs = {'name': {'required': True}, 'geometry': {'required': True}}
 
 
 class AreaSerializer(GeoFeatureModelSerializer):

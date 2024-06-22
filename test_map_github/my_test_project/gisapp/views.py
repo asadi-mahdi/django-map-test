@@ -1,20 +1,18 @@
-from django.utils import timezone
-
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
+from jdatetime import datetime as jalali_date_time
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.exceptions import ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from jdatetime import datetime as jalali_date_time
 
 from . import models
 from .forms import NewUserForm
-from .models import AreaSerializer
+from .models import AreaSerializer, AreaGeneralSerializer
 
 
 @login_required(login_url='/accounts/login/')
@@ -72,11 +70,15 @@ def example_view(request, format=None):
 @api_view(["POST"])
 def create_area(request):
     try:
-        name = request.data.get("name")
-        geometry = GEOSGeometry(str(request.data.get("geometry")))
-        area = models.Area(name=name, geometry=geometry)
-        area.save()
-        return Response(area.id)
+        serializer = AreaGeneralSerializer(data=request.data)
+        detail_of_serializer = repr(serializer)
+        if serializer.is_valid():
+            name = request.data.get("name")
+            geometry = GEOSGeometry(str(request.data.get("geometry")))
+            area = models.Area(name=name, geometry=geometry)
+            area.save()
+            return Response(area.id)
+        return Response(serializer.errors, status=400)
     except Exception as e:
         raise ParseError(detail=e)
 
@@ -86,9 +88,30 @@ def find_area(request, id):
     try:
         a = request.META['sso']
         area = models.Area.objects.filter(id=id)
-        created_at_jalali = jalali_date_time.fromgregorian(datetime=area.values()[0].get("created_at")).strftime("%Y/%m/%d, %H:%M")
+        created_at_jalali = jalali_date_time.fromgregorian(datetime=area.values()[0].get("created_at")).strftime(
+            "%Y/%m/%d, %H:%M")
         result = AreaSerializer(area.values()[0]).data
         result["properties"]["created_at"] = created_at_jalali
         return Response(result)
+    except Exception as e:
+        raise ParseError(detail=e)
+
+
+@api_view(["GET"])
+def find_all_areas(request):
+    try:
+        areas = models.Area.objects.all()
+        return Response(AreaSerializer(areas, many=True).data)
+    except Exception as e:
+        raise ParseError(detail=e)
+
+
+@api_view(["PUT"])
+def update_area(request, id):
+    try:
+        area = models.Area.objects.get(id=id)
+        area.name = request.data.get("name")
+        area.geometry = request.data.get("geometry")
+        area.save()
     except Exception as e:
         raise ParseError(detail=e)
