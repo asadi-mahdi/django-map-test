@@ -14,6 +14,8 @@ from . import models
 from .forms import NewUserForm
 from .models import AreaSerializer, AreaGeneralSerializer
 
+from test_map_github.my_test_project.my_test_project.exceptions import custom_exception_handler
+
 
 @login_required(login_url='/accounts/login/')
 def home_page(request):
@@ -80,17 +82,25 @@ def create_area(request):
             return Response(area.id)
         return Response(serializer.errors, status=400)
     except Exception as e:
-        raise ParseError(detail=e)
+        raise custom_exception_handler(e, context="")  # to do...
 
 
 @api_view(["GET"])
 def find_area(request, id):
     try:
         a = request.META['sso']
-        area = models.Area.objects.filter(id=id)
-        created_at_jalali = jalali_date_time.fromgregorian(datetime=area.values()[0].get("created_at")).strftime(
-            "%Y/%m/%d, %H:%M")
-        result = AreaSerializer(area.values()[0]).data
+
+        # # with filter()
+        # area = models.Area.objects.filter(id=id)
+        # created_at_jalali = jalali_date_time.fromgregorian(datetime=area.values()[0].get("created_at")).strftime(
+        #     "%Y/%m/%d, %H:%M")
+        # result = AreaSerializer(area.values()[0]).data
+        # result["properties"]["created_at"] = created_at_jalali
+
+        # # with get()
+        area = models.Area.objects.get(id=id)
+        created_at_jalali = jalali_date_time.fromgregorian(datetime=area.created_at).strftime("%Y/%m/%d, %H:%M")
+        result = AreaSerializer(area).data
         result["properties"]["created_at"] = created_at_jalali
         return Response(result)
     except Exception as e:

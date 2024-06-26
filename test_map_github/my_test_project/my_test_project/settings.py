@@ -49,6 +49,9 @@ INSTALLED_APPS = [
 #         'rest_framework.authentication.SessionAuthentication',
 #     ]
 # }
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'test_map_github.my_test_project.my_test_project.exceptions.custom_exception_handler'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +65,7 @@ MIDDLEWARE = [
     'test_map_github.my_test_project.my_test_project.middleware.SimpleMiddleware',
     # middleware for translation according to LANGUAGE_CODE
     'django.middleware.locale.LocaleMiddleware',
+    'test_map_github.my_test_project.my_test_project.middleware.ExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'my_test_project.urls'

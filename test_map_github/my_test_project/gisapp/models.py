@@ -29,7 +29,8 @@ class AreaGeneralSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = '__all__'
-        extra_kwargs = {'name': {'required': True}, 'geometry': {'required': True}}
+        # another way for validation
+        # extra_kwargs = {'name': {'required': True}, 'geometry': {'required': True}}
 
 
 class AreaSerializer(GeoFeatureModelSerializer):
