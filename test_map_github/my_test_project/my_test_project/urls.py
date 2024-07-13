@@ -21,5 +21,5 @@ urlpatterns = [
     path('gisapp', include('gisapp.urls')),
     path('members', include('members.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include("django.contrib.auth.urls")),
+    # path('accounts/', include("django.contrib.auth.urls")),
 ]

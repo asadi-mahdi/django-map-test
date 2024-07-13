@@ -2,6 +2,9 @@ import os
 
 from django.http import HttpResponseForbidden, JsonResponse
 from django.utils.deprecation import MiddlewareMixin
+from jdatetime import datetime
+
+from test_map_github.my_test_project.my_test_project.settings import ERRORS_PATH
 
 
 class SimpleMiddleware(MiddlewareMixin):
@@ -22,13 +25,17 @@ class SimpleMiddleware(MiddlewareMixin):
 
 class ExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
-        custom_response = {
-            "status": "server error",
-            "message": exception.__str__()
-        }
         import traceback
-        file = open(os.path.join(os.path.dirname(__file__), 'exceptions.txt'), 'a')
+        error_time = str(int(datetime.now().timestamp()))
+        if not os.path.exists(ERRORS_PATH):
+            os.makedirs(ERRORS_PATH)
+        # file = open(os.path.join(os.path.dirname(__file__), (error_time + '.txt')), 'a')
+        file = open(os.path.join(ERRORS_PATH, (error_time + '.txt')), 'a')
         file.write(traceback.format_exc())
         file.close()
+        custom_response = {
+            "status": "server error",
+            "message": "error code is " + error_time
+        }
 
         return JsonResponse(custom_response, status=500)

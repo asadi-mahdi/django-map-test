@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'members',
     'gisapp',
     'django.contrib.gis',
+    # 'oauth2_provider',
 ]
 
 # REST_FRAMEWORK = {
@@ -49,9 +50,30 @@ INSTALLED_APPS = [
 #         'rest_framework.authentication.SessionAuthentication',
 #     ]
 # }
-REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'test_map_github.my_test_project.my_test_project.exceptions.custom_exception_handler'
-}
+# REST_FRAMEWORK = {
+#     'EXCEPTION_HANDLER': 'test_map_github.my_test_project.my_test_project.exceptions.custom_exception_handler'
+# }
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     )
+# }
+
+# OAUTH2_PROVIDER = {
+#     'RESOURCE_SERVER_INTROSPECTION_URL': 'http://127.0.0.1:8001/o/introspect/',
+#     'RESOURCE_SERVER_INTROSPECTION_CREDENTIALS': ('LTVlrvajsEOzVVVrxqkhhce11fjM2kVJlj2Da2AS',
+#                                                   'UUTqouJeY2EhvLcVUWOn7TIS0yth26OTr5r5IzrYbjaxSpKRfzjwgSiwHmMSMM9Ma74lRmeoU7cqkTIyKRWtsBdp02RPwa9qmIp8mAW7AKhDM6kotBMncdTqNZCVRMmL'),
+# }
+
+# AUTHENTICATION_BACKENDS = (
+#   # 'django.contrib.auth.backends.ModelBackend',
+#   'oauth2_provider.backends.OAuth2Backend',
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,7 +84,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # custom middleware for authorization
-    'test_map_github.my_test_project.my_test_project.middleware.SimpleMiddleware',
+    # 'test_map_github.my_test_project.my_test_project.middleware.SimpleMiddleware',
+    # 'oauth2_provider.middleware.OAuth2TokenMiddleware',
     # middleware for translation according to LANGUAGE_CODE
     'django.middleware.locale.LocaleMiddleware',
     'test_map_github.my_test_project.my_test_project.middleware.ExceptionMiddleware',
@@ -132,6 +155,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+# LOCALE_PATHS = [
+#     "test_map_github/my_test_project/my_test_project/locale",
+# ]
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -144,6 +171,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ERRORS_PATH = "C:\\Users\\dev25\\Desktop\\error_files"
 
 LOGIN_REDIRECT_URL = "/gisapp/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
