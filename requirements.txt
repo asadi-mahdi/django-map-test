@@ -1,10 +1,23 @@
 asgiref==3.8.1
+certifi==2024.7.4
+cffi==1.16.0
+charset-normalizer==3.3.2
+cryptography==42.0.8
 Django==5.0.6
+django-oauth-toolkit==2.4.0
 djangorestframework==3.15.1
 djangorestframework-gis==1.0
 GDAL @ file:///C:/Users/dev25/Desktop/Django/tessst_github/django-map-test/GDAL-3.8.4-cp312-cp312-win_amd64.whl#sha256=841c9569814fb5167e5b5652cf244f20a91051d1d6dd1ee97e72a0a9c0631d8c
+idna==3.7
 jalali_core==1.0.0
 jdatetime==5.0.0
+jwcrypto==1.5.6
+oauthlib==3.2.2
 psycopg2==2.9.9
+pycparser==2.22
+pytz==2024.1
+requests==2.32.3
 sqlparse==0.5.0
+typing_extensions==4.12.2
 tzdata==2024.1
+urllib3==2.2.2

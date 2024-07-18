@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext
 from jdatetime import datetime as jalali_date_time
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -80,15 +81,15 @@ def create_area(request):
             area = models.Area(name=name, geometry=geometry)
             area.save()
             return Response(area.id)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=409)
     except Exception as e:
-        raise custom_exception_handler(e, context="")  # to do...
+        return custom_exception_handler(e, context="view")
 
 
 @api_view(["GET"])
 def find_area(request, id):
     try:
-        a = request.META['sso']
+        # a = request.META['sso']
 
         # # with filter()
         # area = models.Area.objects.filter(id=id)
@@ -102,9 +103,9 @@ def find_area(request, id):
         created_at_jalali = jalali_date_time.fromgregorian(datetime=area.created_at).strftime("%Y/%m/%d, %H:%M")
         result = AreaSerializer(area).data
         result["properties"]["created_at"] = created_at_jalali
-        return Response(result)
-    except Exception as e:
-        raise ParseError(detail=e)
+        return Response(area.geometry)
+    except BaseException as e:
+        return custom_exception_handler(e, context="view")
 
 
 @api_view(["GET"])
@@ -113,7 +114,7 @@ def find_all_areas(request):
         areas = models.Area.objects.all()
         return Response(AreaSerializer(areas, many=True).data)
     except Exception as e:
-        raise ParseError(detail=e)
+        return custom_exception_handler(e, context="view")
 
 
 @api_view(["PUT"])
@@ -124,4 +125,4 @@ def update_area(request, id):
         area.geometry = request.data.get("geometry")
         area.save()
     except Exception as e:
-        raise ParseError(detail=e)
+        return custom_exception_handler(e, context="view")
