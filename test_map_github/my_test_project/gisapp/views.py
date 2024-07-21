@@ -2,6 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.serializers import serialize
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext
 from jdatetime import datetime as jalali_date_time
@@ -71,6 +72,7 @@ def example_view(request, format=None):
 
 
 @api_view(["POST"])
+@transaction.atomic()
 def create_area(request):
     try:
         serializer = AreaGeneralSerializer(data=request.data)
@@ -80,6 +82,7 @@ def create_area(request):
             geometry = GEOSGeometry(str(request.data.get("geometry")))
             area = models.Area(name=name, geometry=geometry)
             area.save()
+            # g = GEOSGeometry(request.data.get("geometry"))
             return Response(area.id)
         return Response(serializer.errors, status=409)
     except Exception as e:

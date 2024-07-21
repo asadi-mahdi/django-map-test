@@ -1,5 +1,6 @@
 import os
 
+from django.db import transaction
 from django.http import HttpResponseForbidden, JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 from jdatetime import datetime
@@ -26,11 +27,13 @@ class SimpleMiddleware(MiddlewareMixin):
 class ExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         import traceback
-        error_time = str(int(datetime.now().timestamp()))
-        if not os.path.exists(ERRORS_PATH):
-            os.makedirs(ERRORS_PATH)
+        time_now = datetime.now()
+        error_time = str(int(time_now.timestamp()))
+        full_error_path = os.path.join(ERRORS_PATH, str(time_now.year), str(time_now.month), str(time_now.day))
+        if not os.path.exists(full_error_path):
+            os.makedirs(full_error_path)
         # file = open(os.path.join(os.path.dirname(__file__), (error_time + '.txt')), 'a')
-        file = open(os.path.join(ERRORS_PATH, (error_time + '.txt')), 'a')
+        file = open(os.path.join(full_error_path, (error_time + '.txt')), 'a')
         file.write(traceback.format_exc())
         file.close()
         custom_response = {

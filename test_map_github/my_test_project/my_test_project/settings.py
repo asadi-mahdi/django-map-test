@@ -172,7 +172,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ERRORS_PATH = "C:\\Users\\dev25\\Desktop\\error_files"
+ERRORS_PATH = "\\mapdata\\runtimeexception"
 
 LOGIN_REDIRECT_URL = "/gisapp/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"

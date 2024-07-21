@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework.response import Response
 
 
@@ -15,6 +16,8 @@ def custom_exception_handler(exc, context):
     # return response
 
     # for handle errors with both middleware for 500 errors and this for 409
+    if not transaction.get_autocommit():
+        transaction.set_rollback(True)  # rollback
     custom_response = {
         "status": "conflict",
         "message": str(exc),
