@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from django.utils.translation import gettext_lazy
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -177,10 +178,10 @@ ERRORS_PATH = "\\mapdata\\runtimeexception"
 LOGIN_REDIRECT_URL = "/gisapp/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
-GDAL_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
-GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
+# GDAL_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
+GDAL_LIBRARY_PATH = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
+# GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
+GEOS_LIBRARY_PATH = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
 
-import os
-
-os.environ[
-    'PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
+# os.environ['PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
+os.environ['PROJ_LIB'] = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
