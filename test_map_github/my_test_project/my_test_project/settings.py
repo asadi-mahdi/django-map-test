@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-oruze(j-**(msr!#_dmtwikdldrxel9+thu^&!vcinyr!tq3l7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '*']
 
 # Application definition
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'members',
     'gisapp',
     'django.contrib.gis',
+    'corsheaders',
     # 'oauth2_provider',
 ]
 
@@ -79,6 +80,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -178,10 +180,41 @@ ERRORS_PATH = "\\mapdata\\runtimeexception"
 LOGIN_REDIRECT_URL = "/gisapp/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
-# GDAL_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
-GDAL_LIBRARY_PATH = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
-# GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
-GEOS_LIBRARY_PATH = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
+# CORS_ALLOWED_ALL_ORIGINS = True
 
-# os.environ['PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
-os.environ['PROJ_LIB'] = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http://localhost:3000$",
+]
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+GDAL_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
+# GDAL_LIBRARY_PATH = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\gdal.dll"
+GEOS_LIBRARY_PATH = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
+# GEOS_LIBRARY_PATH = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\geos_c.dll"
+
+os.environ[
+    'PROJ_LIB'] = "C:\\Users\\dev25\\Desktop\\Django\\tessst_github\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
+# os.environ['PROJ_LIB'] = "D:\\python\\django-map-test\\venv\\Lib\\site-packages\\osgeo\\data\\proj"
