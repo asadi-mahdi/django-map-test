@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'gisapp',
     'django.contrib.gis',
     'corsheaders',
-    # 'oauth2_provider',
+    'oauth2_provider',
 ]
 
 # REST_FRAMEWORK = {
@@ -57,25 +57,33 @@ INSTALLED_APPS = [
 # }
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-#     ),
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#     )
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 
 # OAUTH2_PROVIDER = {
 #     'RESOURCE_SERVER_INTROSPECTION_URL': 'http://127.0.0.1:8001/o/introspect/',
 #     'RESOURCE_SERVER_INTROSPECTION_CREDENTIALS': ('LTVlrvajsEOzVVVrxqkhhce11fjM2kVJlj2Da2AS',
 #                                                   'UUTqouJeY2EhvLcVUWOn7TIS0yth26OTr5r5IzrYbjaxSpKRfzjwgSiwHmMSMM9Ma74lRmeoU7cqkTIyKRWtsBdp02RPwa9qmIp8mAW7AKhDM6kotBMncdTqNZCVRMmL'),
 # }
+OAUTH2_PROVIDER = {
+    # 'OIDC_ENABLED': True,
+    # 'OIDC_ISS_ENDPOINT': 'http://172.16.11.24:8080/sso/oauth2',
 
-# AUTHENTICATION_BACKENDS = (
-#   # 'django.contrib.auth.backends.ModelBackend',
-#   'oauth2_provider.backends.OAuth2Backend',
-# )
+    'RESOURCE_SERVER_INTROSPECTION_URL': 'http://172.16.11.24:8080/sso/oauth2/introspect',
+    'RESOURCE_SERVER_INTROSPECTION_CREDENTIALS': ('ssoClient-2',
+                                                  'ssoClientSecret-2'),
+}
+
+AUTHENTICATION_BACKENDS = (
+    # 'django.contrib.auth.backends.ModelBackend',
+    'oauth2_provider.backends.OAuth2Backend',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,7 +96,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # custom middleware for authorization
     # 'test_map_github.my_test_project.my_test_project.middleware.SimpleMiddleware',
-    # 'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
     # middleware for translation according to LANGUAGE_CODE
     'django.middleware.locale.LocaleMiddleware',
     'test_map_github.my_test_project.my_test_project.middleware.ExceptionMiddleware',

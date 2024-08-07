@@ -106,7 +106,7 @@ def find_area(request, id):
         created_at_jalali = jalali_date_time.fromgregorian(datetime=area.created_at).strftime("%Y/%m/%d, %H:%M")
         result = AreaSerializer(area).data
         result["properties"]["created_at"] = created_at_jalali
-        return Response(area.geometry)
+        return Response(result)
     except BaseException as e:
         return custom_exception_handler(e, context="view")
 
@@ -124,8 +124,27 @@ def find_all_areas(request):
 def update_area(request, id):
     try:
         area = models.Area.objects.get(id=id)
-        area.name = request.data.get("name")
-        area.geometry = request.data.get("geometry")
-        area.save()
+        serializer = models.AreaGeneralSerializer(data=request.data)
+        if serializer.is_valid():
+            # check name not repetitive
+            if area.name != request.data.get("name"):
+                area2 = models.Area.objects.filter(name=request.data.get("name"))
+                if area2.count() > 0:
+                    if area2.first().name == request.data.get("name"):
+                        raise ParseError(detail="محدوده ای با این عنوان وجود دارد")
+            area.name = request.data.get("name")
+            area.geometry = GEOSGeometry(str(request.data.get("geometry")))
+            area.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    except Exception as e:
+        return custom_exception_handler(e, context="view")
+
+
+@api_view(["DELETE"])
+def delete_area(request, id):
+    try:
+        area = models.Area.objects.get(id=id)
+        return Response(area.delete())
     except Exception as e:
         return custom_exception_handler(e, context="view")
