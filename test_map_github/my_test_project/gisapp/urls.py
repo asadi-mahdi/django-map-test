@@ -12,6 +12,6 @@ urlpatterns = [
     path('/area', views.create_area),
     path('/area/<int:id>', views.find_area),
     path('/area/find-all', views.find_all_areas),
-    path('/area/<int:id>', views.update_area),
+    path('/area/update/<int:id>', views.update_area),
     path('/area/delete/<int:id>', views.delete_area),
 ]
