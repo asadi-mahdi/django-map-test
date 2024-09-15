@@ -18,9 +18,15 @@ def custom_exception_handler(exc, context):
     # for handle errors with both middleware for 500 errors and this for 409
     if not transaction.get_autocommit():
         transaction.set_rollback(True)  # rollback
-    custom_response = {
-        "status": "conflict",
-        "message": str(exc),
-    }
+    if context == "validation":
+        custom_response = {
+            "status": "conflict",
+            "message": exc,
+        }
+    else:
+        custom_response = {
+            "status": "conflict",
+            "message": str(exc),
+        }
 
     return Response(custom_response, status=409)

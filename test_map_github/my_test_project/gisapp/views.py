@@ -78,13 +78,15 @@ def create_area(request):
         serializer = AreaGeneralSerializer(data=request.data)
         detail_of_serializer = repr(serializer)
         if serializer.is_valid():
+            import traceback
             name = request.data.get("name")
             geometry = GEOSGeometry(str(request.data.get("geometry")))
             area = models.Area(name=name, geometry=geometry)
             area.save()
+            s = traceback.format_exc()
             # g = GEOSGeometry(request.data.get("geometry"))
             return Response(area.id)
-        return Response(serializer.errors, status=409)
+        return custom_exception_handler(serializer.errors, context="validation")
     except Exception as e:
         return custom_exception_handler(e, context="view")
 
@@ -148,3 +150,24 @@ def delete_area(request, id):
         return Response(area.delete())
     except Exception as e:
         return custom_exception_handler(e, context="view")
+
+# @api_view(["POST"])
+# def search(request):
+#     try:
+#         serializer = models.GisOsmPoisFree1RequestSerializer(data=request.data)
+#         if serializer.is_valid():
+#             geometry = GEOSGeometry(str(request.data.get("geom")))
+#             name = request.data.get("name")
+#             result = {}
+#             if geometry.geom_type == "Polygon":
+#                 result = models.Gis_osm_pois_free_1.objects.filter(geom__intersects=geometry,
+#                                                                    name__contains=name)
+#             elif geometry.geom_type == "Point":
+#                 result = (models.Gis_osm_pois_free_1.objects
+#                           .annotate(distance=Distance('geom', geometry))
+#                           .filter(distance__lte=1000, name__contains=name)
+#                           .order_by('distance'))
+#             return Response(models.GisOsmPoisFree1Serializer(result, many=True).data)
+#         return custom_exception_handler(serializer.errors, context="validation")
+#     except Exception as e:
+#         return custom_exception_handler(e, context="view")

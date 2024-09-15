@@ -41,4 +41,4 @@ class ExceptionMiddleware(MiddlewareMixin):
             "message": "error code is " + error_time
         }
 
-        return JsonResponse(custom_response, status=500)
+        return JsonResponse(custom_response, status=400)
